@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AI Image Captioning</title>
+</head>
+<body>
+  <h1>Upload an Image for AI Captioning</h1>
+  <form id="uploadForm">
+    <input type="file" name="image" accept="image/*" required />
+    <button type="submit">Get Caption</button>
+  </form>
+  <p id="caption"></p>
+
+  <script>
+    const form = document.getElementById("uploadForm");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+
+      const res = await fetch("http://localhost:5000/caption", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+      document.getElementById("caption").innerText = "📝 " + data.caption;
+    });
+  </script>
+</body>
+</html>
