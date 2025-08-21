@@ -18,7 +18,7 @@
       e.preventDefault();
       const formData = new FormData(form);
 
-      const res = await fetch("http://localhost:5000/caption", {
+      const res = await fetch("/getCaption", {
         method: "POST",
         body: formData,
       });
