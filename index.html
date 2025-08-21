@@ -14,17 +14,32 @@
 
   <script>
     const form = document.getElementById("uploadForm");
+
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       const formData = new FormData(form);
 
-      const res = await fetch("/getCaption", {
-        method: "POST",
-        body: formData,
-      });
+      try {
+        // 👇 Replace <YOUR_REGION> and <YOUR_PROJECT_ID> with your Firebase project details
+        const res = await fetch(
+          https:us-central1-myprojectid.cloudfunctions.net/getCaption,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
 
-      const data = await res.json();
-      document.getElementById("caption").innerText = "📝 " + data.caption;
+        const data = await res.json();
+
+        if (data.error) {
+          document.getElementById("caption").innerText = "❌ Error: " + data.error;
+        } else {
+          document.getElementById("caption").innerText = "📝 " + data.caption;
+        }
+      } catch (err) {
+        document.getElementById("caption").innerText =
+          "⚠️ Request failed: " + err.message;
+      }
     });
   </script>
 </body>
